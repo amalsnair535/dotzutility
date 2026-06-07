@@ -13,6 +13,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.dotz.utility.data.calendar.CalendarEventDao;
 import com.dotz.utility.data.calendar.CalendarEventDao_Impl;
+import com.dotz.utility.data.clock.AlarmDao;
+import com.dotz.utility.data.clock.AlarmDao_Impl;
 import com.dotz.utility.data.notes.NoteDao;
 import com.dotz.utility.data.notes.NoteDao_Impl;
 import java.lang.Class;
@@ -34,22 +36,26 @@ public final class AppDatabase_Impl extends AppDatabase {
 
   private volatile CalendarEventDao _calendarEventDao;
 
+  private volatile AlarmDao _alarmDao;
+
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(1) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `notes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `isPinned` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `calendar_events` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `epochDay` INTEGER NOT NULL, `title` TEXT NOT NULL, `note` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `alarms` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `isEnabled` INTEGER NOT NULL, `label` TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f18695235621a6710124ed21714bc46b')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c13f9b9f7fcd3301bfc7b5254cbb9fd')");
       }
 
       @Override
       public void dropAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS `notes`");
         db.execSQL("DROP TABLE IF EXISTS `calendar_events`");
+        db.execSQL("DROP TABLE IF EXISTS `alarms`");
         final List<? extends RoomDatabase.Callback> _callbacks = mCallbacks;
         if (_callbacks != null) {
           for (RoomDatabase.Callback _callback : _callbacks) {
@@ -124,9 +130,24 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoCalendarEvents + "\n"
                   + " Found:\n" + _existingCalendarEvents);
         }
+        final HashMap<String, TableInfo.Column> _columnsAlarms = new HashMap<String, TableInfo.Column>(5);
+        _columnsAlarms.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAlarms.put("hour", new TableInfo.Column("hour", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAlarms.put("minute", new TableInfo.Column("minute", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAlarms.put("isEnabled", new TableInfo.Column("isEnabled", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAlarms.put("label", new TableInfo.Column("label", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysAlarms = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesAlarms = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoAlarms = new TableInfo("alarms", _columnsAlarms, _foreignKeysAlarms, _indicesAlarms);
+        final TableInfo _existingAlarms = TableInfo.read(db, "alarms");
+        if (!_infoAlarms.equals(_existingAlarms)) {
+          return new RoomOpenHelper.ValidationResult(false, "alarms(com.dotz.utility.data.clock.AlarmEntity).\n"
+                  + " Expected:\n" + _infoAlarms + "\n"
+                  + " Found:\n" + _existingAlarms);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "f18695235621a6710124ed21714bc46b", "9359ecf3f3f0f154a88c94e554f9f303");
+    }, "0c13f9b9f7fcd3301bfc7b5254cbb9fd", "97d9ef38daa7ca43c0eced2fb1def771");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;
@@ -137,7 +158,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     final HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "notes","calendar_events");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "notes","calendar_events","alarms");
   }
 
   @Override
@@ -148,6 +169,7 @@ public final class AppDatabase_Impl extends AppDatabase {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `notes`");
       _db.execSQL("DELETE FROM `calendar_events`");
+      _db.execSQL("DELETE FROM `alarms`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -164,6 +186,7 @@ public final class AppDatabase_Impl extends AppDatabase {
     final HashMap<Class<?>, List<Class<?>>> _typeConvertersMap = new HashMap<Class<?>, List<Class<?>>>();
     _typeConvertersMap.put(NoteDao.class, NoteDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(CalendarEventDao.class, CalendarEventDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(AlarmDao.class, AlarmDao_Impl.getRequiredConverters());
     return _typeConvertersMap;
   }
 
@@ -206,6 +229,20 @@ public final class AppDatabase_Impl extends AppDatabase {
           _calendarEventDao = new CalendarEventDao_Impl(this);
         }
         return _calendarEventDao;
+      }
+    }
+  }
+
+  @Override
+  public AlarmDao alarmDao() {
+    if (_alarmDao != null) {
+      return _alarmDao;
+    } else {
+      synchronized(this) {
+        if(_alarmDao == null) {
+          _alarmDao = new AlarmDao_Impl(this);
+        }
+        return _alarmDao;
       }
     }
   }

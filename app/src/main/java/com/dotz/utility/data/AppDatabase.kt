@@ -6,22 +6,24 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dotz.utility.data.calendar.CalendarEvent
 import com.dotz.utility.data.calendar.CalendarEventDao
+import com.dotz.utility.data.clock.AlarmDao
+import com.dotz.utility.data.clock.AlarmEntity
 import com.dotz.utility.data.notes.NoteDao
 import com.dotz.utility.data.notes.NoteEntity
 
 /**
  * Single Room database for the whole app.
- * Using a companion-object singleton avoids multiple connections.
  */
 @Database(
-    entities = [NoteEntity::class, CalendarEvent::class],
-    version = 1,
+    entities = [NoteEntity::class, CalendarEvent::class, AlarmEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun noteDao(): NoteDao
     abstract fun calendarEventDao(): CalendarEventDao
+    abstract fun alarmDao(): AlarmDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -32,7 +34,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "dotz_utility.db"
-                ).build().also { INSTANCE = it }
+                )
+                .fallbackToDestructiveMigration()
+                .build().also { INSTANCE = it }
             }
     }
 }

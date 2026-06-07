@@ -1,12 +1,13 @@
 package com.dotz.utility.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.dotz.utility.data.AppDatabase
+import com.dotz.utility.data.clock.AlarmEntity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 // ── Stopwatch ───────────────────────────────────────────────────────────────
@@ -26,7 +27,29 @@ data class TimerState(
     val isFinished: Boolean = false,
 )
 
-class ClockViewModel : ViewModel() {
+class ClockViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val alarmDao = AppDatabase.get(application).alarmDao()
+    val alarms: StateFlow<List<AlarmEntity>> = alarmDao.getAllAlarms()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    fun addAlarm(hour: Int, minute: Int, label: String = "") {
+        viewModelScope.launch {
+            alarmDao.insert(AlarmEntity(hour = hour, minute = minute, label = label))
+        }
+    }
+
+    fun toggleAlarm(alarm: AlarmEntity) {
+        viewModelScope.launch {
+            alarmDao.update(alarm.copy(isEnabled = !alarm.isEnabled))
+        }
+    }
+
+    fun deleteAlarm(alarm: AlarmEntity) {
+        viewModelScope.launch {
+            alarmDao.delete(alarm)
+        }
+    }
 
     // ── Stopwatch ────────────────────────────────────────────────────────────
     private val _stopwatch = MutableStateFlow(StopwatchState())

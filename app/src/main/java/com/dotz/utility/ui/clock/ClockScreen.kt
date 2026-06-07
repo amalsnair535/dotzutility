@@ -1,20 +1,27 @@
 package com.dotz.utility.ui.clock
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dotz.utility.data.clock.AlarmEntity
 import com.dotz.utility.viewmodel.ClockViewModel
 import kotlinx.coroutines.delay
 import java.time.LocalTime
@@ -26,7 +33,7 @@ fun ClockScreen(
     vm: ClockViewModel = viewModel()
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Clock", "Stopwatch", "Timer")
+    val tabs = listOf("Alarm", "Clock", "Stopwatch", "Timer")
 
     Scaffold(
         topBar = {
@@ -65,12 +72,176 @@ fun ClockScreen(
             }
 
             when (selectedTab) {
-                0 -> DigitalClockTab()
-                1 -> StopwatchTab(vm)
-                2 -> TimerTab(vm)
+                0 -> AlarmTab(vm)
+                1 -> DigitalClockTab()
+                2 -> StopwatchTab(vm)
+                3 -> TimerTab(vm)
             }
         }
     }
+}
+
+// ── Alarms ──────────────────────────────────────────────────────────────
+
+@Composable
+private fun AlarmTab(vm: ClockViewModel) {
+    val alarms by vm.alarms.collectAsState()
+    var showAddDialog by remember { mutableStateOf(false) }
+
+    Box(Modifier.fillMaxSize()) {
+        if (alarms.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No alarms set", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(alarms, key = { it.id }) { alarm ->
+                    AlarmItem(
+                        alarm = alarm,
+                        onToggle = { vm.toggleAlarm(alarm) },
+                        onDelete = { vm.deleteAlarm(alarm) }
+                    )
+                }
+            }
+        }
+
+        FloatingActionButton(
+            onClick = { showAddDialog = true },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(24.dp),
+            containerColor = MaterialTheme.colorScheme.onSurface,
+            contentColor = MaterialTheme.colorScheme.surface,
+            shape = CircleShape
+        ) {
+            Icon(Icons.Outlined.Add, "Add Alarm")
+        }
+    }
+
+    if (showAddDialog) {
+        AddAlarmDialog(
+            onDismiss = { showAddDialog = false },
+            onConfirm = { h, m, label ->
+                vm.addAlarm(h, m, label)
+                showAddDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+private fun AlarmItem(
+    alarm: AlarmEntity,
+    onToggle: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = "%02d:%02d".format(alarm.hour, alarm.minute),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Light,
+                    color = if (alarm.isEnabled) 
+                        MaterialTheme.colorScheme.onSurface 
+                    else 
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                )
+                if (alarm.label.isNotBlank()) {
+                    Text(
+                        text = alarm.label,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+            }
+            
+            IconButton(onClick = onDelete) {
+                Icon(
+                    Icons.Outlined.DeleteOutline, 
+                    "Delete",
+                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                )
+            }
+            
+            Switch(
+                checked = alarm.isEnabled,
+                onCheckedChange = { onToggle() },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.surface,
+                    checkedTrackColor = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddAlarmDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (Int, Int, String) -> Unit
+) {
+    var h by remember { mutableStateOf("07") }
+    var m by remember { mutableStateOf("00") }
+    var label by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Set Alarm") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedTextField(
+                        value = h,
+                        onValueChange = { if (it.length <= 2 && it.all { c -> c.isDigit() }) h = it },
+                        modifier = Modifier.width(64.dp),
+                        label = { Text("HH") },
+                        singleLine = true
+                    )
+                    Text(" : ", style = MaterialTheme.typography.headlineMedium)
+                    OutlinedTextField(
+                        value = m,
+                        onValueChange = { if (it.length <= 2 && it.all { c -> c.isDigit() }) m = it },
+                        modifier = Modifier.width(64.dp),
+                        label = { Text("MM") },
+                        singleLine = true
+                    )
+                }
+                OutlinedTextField(
+                    value = label,
+                    onValueChange = { label = it },
+                    label = { Text("Label (optional)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                val hour = h.toIntOrNull() ?: 0
+                val minute = m.toIntOrNull() ?: 0
+                onConfirm(hour % 24, minute % 60, label)
+            }) { Text("Save") }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
 }
 
 // ── Digital Clock ──────────────────────────────────────────────────────────
