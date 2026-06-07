@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dotz Utility</string>
+    <string name="tagline">Calculator, Calendar, Clock &amp; Notes — All in One.</string>
+    <style name="Theme.DotzUtility" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>

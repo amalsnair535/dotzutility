@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\mipmap_ic_launcher.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\mipmap\\ic_launcher.xml"
+    },
+    {
+        "merged": "com.dotz.utility.app-debug-59:/mipmap_ic_launcher_round.xml.flat",
+        "source": "com.dotz.utility.app-main-61:/mipmap/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.dotz.utility.app-debug-59:/mipmap_ic_launcher.xml.flat",
+        "source": "com.dotz.utility.app-main-61:/mipmap/ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\mipmap_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\mipmap\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-debug-59:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.7\\com.dotz.utility.app-main-61:\\xml\\backup_rules.xml"
+    }
+]
