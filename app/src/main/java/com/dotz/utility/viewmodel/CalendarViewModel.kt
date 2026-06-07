@@ -36,8 +36,14 @@ class CalendarViewModel(app: Application) : AndroidViewModel(app) {
         else dao.observeByDay(day.toEpochDay())
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun previousMonth() { _displayMonth.update { it.minusMonths(1) } }
-    fun nextMonth()     { _displayMonth.update { it.plusMonths(1) } }
+    fun previousMonth() { 
+        _displayMonth.update { it.minusMonths(1) }
+        _selectedDay.value = null
+    }
+    fun nextMonth() { 
+        _displayMonth.update { it.plusMonths(1) }
+        _selectedDay.value = null
+    }
 
     fun selectDay(day: LocalDate) {
         _selectedDay.value = if (_selectedDay.value == day) null else day

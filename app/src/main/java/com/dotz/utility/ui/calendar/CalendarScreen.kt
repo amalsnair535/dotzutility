@@ -28,6 +28,7 @@ import com.dotz.utility.viewmodel.CalendarViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle as JTextStyle
 import java.util.Locale
 
@@ -42,6 +43,9 @@ fun CalendarScreen(
     val events by vm.selectedDayEvents.collectAsState()
 
     var showAddDialog by remember { mutableStateOf(false) }
+    val dateFullFormatter = remember { 
+        java.text.SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
+    }
 
     Scaffold(
         topBar = {
@@ -103,8 +107,14 @@ fun CalendarScreen(
             // Events list for selected day
             if (selectedDay != null) {
                 Text(
-                    text = selectedDay!!.toString(),
+                    text = try {
+                        val date = java.util.Date.from(selectedDay!!.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+                        dateFullFormatter.format(date)
+                    } catch (e: Exception) {
+                        selectedDay!!.toString()
+                    },
                     style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
                 if (events.isEmpty()) {
@@ -114,7 +124,7 @@ fun CalendarScreen(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
                 } else {
-                    LazyColumn {
+                    LazyColumn(modifier = Modifier.weight(1f)) {
                         items(events, key = { it.id }) { event ->
                             EventRow(event = event, onDelete = { vm.deleteEvent(event) })
                         }
@@ -124,6 +134,7 @@ fun CalendarScreen(
                 Box(
                     Modifier
                         .fillMaxWidth()
+                        .weight(1f)
                         .padding(32.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -193,29 +204,26 @@ private fun CalendarGrid(
     eventDays: Set<Long>,
     onDayClick: (LocalDate) -> Unit,
 ) {
-    // Build weeks
     val firstDayOfMonth = month.atDay(1)
-    val startOffset = firstDayOfMonth.dayOfWeek.let {
-        // Sunday = 0 offset
-        (it.value % 7)
-    }
+    val startOffset = firstDayOfMonth.dayOfWeek.let { (it.value % 7) }
     val daysInMonth = month.lengthOfMonth()
+    
+    // Calculate total slots needed (rows of 7)
+    val totalSlots = startOffset + daysInMonth
+    val rows = (totalSlots + 6) / 7
 
     Column(Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
-        var dayCount = 1
-        while (dayCount <= daysInMonth) {
+        for (row in 0 until rows) {
             Row(Modifier.fillMaxWidth()) {
                 for (col in 0..6) {
-                    val isActive = (dayCount == 1 && col >= startOffset) ||
-                            (dayCount > 1 && dayCount <= daysInMonth)
-                    val dayNum = if (dayCount == 1 && col < startOffset) 0
-                    else if (dayCount <= daysInMonth) dayCount++ else 0
-
+                    val index = row * 7 + col
+                    val dayNum = index - startOffset + 1
+                    
                     Box(
                         modifier = Modifier.weight(1f).aspectRatio(1f),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (dayNum > 0) {
+                        if (dayNum in 1..daysInMonth) {
                             val date = month.atDay(dayNum)
                             val isToday = date == today
                             val isSelected = date == selectedDay
@@ -267,10 +275,8 @@ private fun CalendarGrid(
                             }
                         }
                     }
-                    if (dayNum == daysInMonth) break
                 }
             }
-            if (dayCount > daysInMonth) break
         }
     }
 }
