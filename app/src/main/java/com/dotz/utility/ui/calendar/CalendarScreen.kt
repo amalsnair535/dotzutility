@@ -32,6 +32,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle as JTextStyle
 import java.util.Locale
 
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(
@@ -46,6 +49,9 @@ fun CalendarScreen(
     val dateFullFormatter = remember { 
         java.text.SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
     }
+    
+    // Swipe state
+    var swipeOffsetX by remember { mutableStateOf(0f) }
 
     Scaffold(
         topBar = {
@@ -79,6 +85,22 @@ fun CalendarScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures(
+                        onDragEnd = {
+                            if (swipeOffsetX > 150) {
+                                vm.previousMonth()
+                            } else if (swipeOffsetX < -150) {
+                                vm.nextMonth()
+                            }
+                            swipeOffsetX = 0f
+                        },
+                        onHorizontalDrag = { change, dragAmount ->
+                            change.consume()
+                            swipeOffsetX += dragAmount
+                        }
+                    )
+                }
         ) {
             // Month navigator
             MonthHeader(
