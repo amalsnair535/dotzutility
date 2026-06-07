@@ -24,16 +24,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dotz.utility.data.clock.AlarmEntity
 import com.dotz.utility.viewmodel.ClockViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClockScreen(
     vm: ClockViewModel = viewModel()
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Alarm", "Clock", "Stopwatch", "Timer")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -61,21 +66,35 @@ fun ClockScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            TabRow(selectedTabIndex = selectedTab,
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
                 containerColor = MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.onBackground) {
+                contentColor = MaterialTheme.colorScheme.onBackground
+            ) {
                 tabs.forEachIndexed { i, title ->
-                    Tab(selected = selectedTab == i,
-                        onClick = { selectedTab = i },
-                        text = { Text(title) })
+                    Tab(
+                        selected = pagerState.currentPage == i,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(i)
+                            }
+                        },
+                        text = { Text(title) }
+                    )
                 }
             }
 
-            when (selectedTab) {
-                0 -> AlarmTab(vm)
-                1 -> DigitalClockTab()
-                2 -> StopwatchTab(vm)
-                3 -> TimerTab(vm)
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                beyondViewportPageCount = 1
+            ) { page ->
+                when (page) {
+                    0 -> AlarmTab(vm)
+                    1 -> DigitalClockTab()
+                    2 -> StopwatchTab(vm)
+                    3 -> TimerTab(vm)
+                }
             }
         }
     }
