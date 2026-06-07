@@ -169,15 +169,35 @@ private fun AlarmItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(Modifier.weight(1f)) {
-                Text(
-                    text = "%02d:%02d".format(alarm.hour, alarm.minute),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Light,
-                    color = if (alarm.isEnabled) 
-                        MaterialTheme.colorScheme.onSurface 
-                    else 
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-                )
+                val isPm = alarm.hour >= 12
+                val displayHour = when {
+                    alarm.hour == 0 -> 12
+                    alarm.hour > 12 -> alarm.hour - 12
+                    else -> alarm.hour
+                }
+                val amPm = if (isPm) "PM" else "AM"
+                
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Text(
+                        text = "%02d:%02d".format(displayHour, alarm.minute),
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Light,
+                        color = if (alarm.isEnabled) 
+                            MaterialTheme.colorScheme.onSurface 
+                        else 
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        text = amPm,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (alarm.isEnabled) 
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) 
+                        else 
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                }
                 if (alarm.label.isNotBlank()) {
                     Text(
                         text = alarm.label,
@@ -214,6 +234,7 @@ private fun AddAlarmDialog(
 ) {
     var h by remember { mutableStateOf("07") }
     var m by remember { mutableStateOf("00") }
+    var isPm by remember { mutableStateOf(false) }
     var label by remember { mutableStateOf("") }
 
     AlertDialog(
@@ -241,6 +262,22 @@ private fun AddAlarmDialog(
                         label = { Text("MM") },
                         singleLine = true
                     )
+                    Spacer(Modifier.width(12.dp))
+                    
+                    Column {
+                        TextButton(
+                            onClick = { isPm = false },
+                            colors = ButtonDefaults.textButtonColors(
+                                contentColor = if (!isPm) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                            )
+                        ) { Text("AM", fontWeight = if (!isPm) FontWeight.Bold else FontWeight.Normal) }
+                        TextButton(
+                            onClick = { isPm = true },
+                            colors = ButtonDefaults.textButtonColors(
+                                contentColor = if (isPm) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                            )
+                        ) { Text("PM", fontWeight = if (isPm) FontWeight.Bold else FontWeight.Normal) }
+                    }
                 }
                 OutlinedTextField(
                     value = label,
@@ -252,8 +289,13 @@ private fun AddAlarmDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                val hour = h.toIntOrNull() ?: 0
+                var hour = h.toIntOrNull() ?: 0
                 val minute = m.toIntOrNull() ?: 0
+                
+                // Convert to 24h format for saving
+                if (isPm && hour < 12) hour += 12
+                if (!isPm && hour == 12) hour = 0
+                
                 onConfirm(hour % 24, minute % 60, label)
             }) { Text("Save") }
         },
