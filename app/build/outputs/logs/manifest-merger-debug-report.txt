@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:28:9-36:20
+INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:41:9-49:20
 	android:grantUriPermissions
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:32:13-47
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:45:13-47
 	android:authorities
 		INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:30:13-60
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:43:13-60
 	android:exported
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:31:13-37
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:44:13-37
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:29:13-62
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:42:13-62
 manifest
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-39:12
-INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-39:12
-INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-39:12
-INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-39:12
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:2:1-52:12
 MERGED from [androidx.navigation:navigation-common:2.8.4] C:\Users\USER\.gradle\caches\transforms-4\fd8b531d737858c9bbf51ec5d1d35eed\transformed\navigation-common-2.8.4\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-runtime:2.8.4] C:\Users\USER\.gradle\caches\transforms-4\f425bbd1343c38ec0e7629c4931098a6\transformed\navigation-runtime-2.8.4\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.8.4] C:\Users\USER\.gradle\caches\transforms-4\cfc1667579c2853cc1b3070085dde660\transformed\navigation-common-ktx-2.8.4\AndroidManifest.xml:2:1-7:12
@@ -88,9 +88,29 @@ ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidM
 		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:6:9-35
 	android:name
 		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:5:22-78
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.USE_EXACT_ALARM
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:9:5-74
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:9:22-71
+uses-permission#android.permission.VIBRATE
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:10:5-66
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:10:22-63
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:11:5-77
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:11:22-74
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:12:22-78
 application
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:8:5-38:19
-INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:8:5-38:19
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:14:5-51:19
+INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:14:5-51:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\USER\.gradle\caches\transforms-4\d7bf9259fa2065ae1262bf94357739e7\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\USER\.gradle\caches\transforms-4\d7bf9259fa2065ae1262bf94357739e7\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\USER\.gradle\caches\transforms-4\b3adbb178f9663b88321ae4a95fe6df9\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:23:5-33:19
@@ -112,43 +132,61 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\USER\.gradle\cache
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\USER\.gradle\caches\transforms-4\b797be807608a81f45c1fbb8cc2c5f61\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:14:9-35
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:20:9-35
 	android:label
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:12:9-41
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:18:9-41
 	android:roundIcon
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:13:9-54
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:19:9-54
 	android:icon
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:11:9-43
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:17:9-43
 	android:allowBackup
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:16:9-35
 	android:theme
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:15:9-49
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:21:9-49
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:9:9-32
-activity#com.dotz.utility.MainActivity
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:17:9-25:20
-	android:windowSoftInputMode
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:20:13-55
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:15:9-32
+receiver#com.dotz.utility.service.AlarmReceiver
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:23:9-84
 	android:exported
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:19:13-36
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:23:57-81
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:18:13-41
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:23:19-56
+receiver#com.dotz.utility.service.BootReceiver
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:24:9-28:20
+	android:exported
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:24:56-80
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:24:19-55
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:25:13-27:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:26:17-79
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:26:25-76
+activity#com.dotz.utility.MainActivity
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:30:9-38:20
+	android:windowSoftInputMode
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:33:13-55
+	android:exported
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:32:13-36
+	android:name
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:31:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:21:13-24:29
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:34:13-37:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:35:17-69
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:35:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:36:17-77
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:36:27-74
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:33:13-35:54
+ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:46:13-48:54
 	android:resource
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:35:17-51
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:48:17-51
 	android:name
-		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:34:17-67
+		ADDED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml:47:17-67
 uses-sdk
 INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\USER\Downloads\DotzUtility\DotzUtility\app\src\main\AndroidManifest.xml

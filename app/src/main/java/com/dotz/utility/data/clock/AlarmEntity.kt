@@ -18,7 +18,7 @@ interface AlarmDao {
     fun getAllAlarms(): Flow<List<AlarmEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(alarm: AlarmEntity)
+    suspend fun insert(alarm: AlarmEntity): Long
 
     @Update
     suspend fun update(alarm: AlarmEntity)
